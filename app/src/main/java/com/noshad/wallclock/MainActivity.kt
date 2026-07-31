@@ -8,10 +8,8 @@ import android.view.accessibility.AccessibilityManager
 import android.widget.TextClock
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth
     private lateinit var statusText: TextView
     private lateinit var clock: TextClock
 
@@ -21,26 +19,13 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        auth = FirebaseAuth.getInstance()
         statusText = findViewById(R.id.statusText)
         clock = findViewById(R.id.clock)
 
         clock.format12Hour = "hh:mm"
         clock.format24Hour = "HH:mm"
-
-        if (auth.currentUser == null) {
-            statusText.text = "Connecting..."
-            auth.signInAnonymously()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        statusText.text = "Connected"
-                    } else {
-                        statusText.text = "Connected"
-                    }
-                }
-        } else {
-            statusText.text = "Connected"
-        }
+        
+        statusText.text = "Connected"
 
         checkAndEnableService()
     }
